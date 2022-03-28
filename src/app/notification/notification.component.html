@@ -1,0 +1,47 @@
+<div class="container">
+   <div class="img-container" >
+   <img style="width: 100%;margin-top: -70px;" src="https://png.pngtree.com/thumb_back/fh260/back_our/20190620/ourmid/pngtree-speaker-notification-background-material-image_142012.jpg" alt="" srcset="">
+   </div>
+
+  <form [formGroup]="notifcreateform" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Choisir un Topic</label>
+    <select
+    class="custom-select mb-3"
+    (change)="changeType($event)"
+    formControlName="topic"
+  >
+    <option value="">Destination</option>
+    <option *ngFor="let topic of Topics" [value]="topic">
+      {{ topic }}
+    </option>
+  </select>
+  <!-- error block -->
+
+
+</div>
+
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Titre</label>
+        <input type="text" class="form-control" formControlName="Title" id="exampleInputEmail1"
+            placeholder="Entrer le titre de la notification ">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Body</label>
+        <input type="text" class="form-control" formControlName="Body" id="exampleInputEmail1"
+            placeholder="Entrer la description de la notification">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Image</label>
+        <input type="text" class="form-control" formControlName="Image" id="exampleInputEmail1"
+            placeholder="Entrer l'Image de notification">
+    </div>
+   
+   
+    
+   
+
+    <button class="btn btn-primary">Notifier</button>
+</form>
+</div>

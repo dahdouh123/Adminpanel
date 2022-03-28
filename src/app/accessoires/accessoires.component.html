@@ -1,0 +1,239 @@
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col">
+            <h3>Accessoires</h3>
+        </div>
+        <div class="col text-right">
+            <button mat-raised-button color="primary" (click)="opencreatemodal(mymodalcreate)">Ajouter</button>
+
+        </div>
+    </div>
+    <br />
+
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="form"> <i class="fa fa-search"></i> <input matInput (keyup)="applyFilter($event)" type="text"
+                    class="form-control form-input" placeholder="Search anything..."> <span class="left-pan"><i
+                        class="fa fa-microphone"></i></span> </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <table mat-table [dataSource]="datasource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Image">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+            <td mat-cell *matCellDef="let element"> <img style="width:80px" src="{{element.Image}} " alt="" srcset="">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Designation">
+            <th style="margin-right: 10px;" mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+            <td mat-cell *matCellDef="let element"> {{element.AcessName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Prix">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
+            <td mat-cell *matCellDef="let element"> {{element.Prix}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Batterie">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Batterie </th>
+            <td mat-cell *matCellDef="let element"> {{element.Batterie}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Brand">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
+            <td mat-cell *matCellDef="let element"> {{element.Brand}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Actions" style="width: 300px;">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary" (click)="opendetail(mymodal,element.Id)">View</button>
+                <button mat-raised-button style="background-color: lightgreen;"
+                    (click)="openedit(mymodaledit,element.Id)">Edit</button>
+                <button mat-raised-button color="warn" (click)="deleteProduct(element.Id)">Delete</button>
+
+
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
+
+
+</div>
+
+
+<ng-template #mymodal let-modal>
+    <div class="modal-header" style="background-color:lightgray">
+        <h4 class="modal-title" id="modal-basic-title"> Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body" *ngFor="let item of detaillist">
+        <mat-card class="example-card">
+            <mat-card-title-group>
+                <mat-card-title style="font-size: large;font-weight: bold;">{{item.AcessName}}</mat-card-title>
+                <mat-card-subtitle>{{item.Prix}}</mat-card-subtitle>
+                <img style="width:150px" src="{{item.Image}}">
+            </mat-card-title-group>
+            <mat-card-content>
+                <h4>Fiche technique</h4>
+
+ 
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>
+
+
+
+
+
+
+
+
+<ng-template #mymodalcreate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Creer nouveau Accessoire</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="accesscreateform" (ngSubmit)="onSubmit()">
+            <select
+            class="custom-select mb-3"
+            (change)="changeType($event)"
+            formControlName="Type"
+          >
+            <option value="">Choisir Type</option>
+            <option *ngFor="let type of Types" [ngValue]="type">
+              {{ type }}
+            </option>
+          </select>
+          <!-- error block -->
+        
+
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Designation</label>
+                <input type="text" class="form-control" formControlName="AcessName" id="exampleInputEmail1"
+                    placeholder="Enter Designation">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Prix</label>
+                <input type="text" class="form-control" formControlName="Prix" id="exampleInputEmail1"
+                    placeholder="Enter Price">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Brand</label>
+                <input type="text" class="form-control" formControlName="Brand" id="exampleInputEmail1"
+                    placeholder="Enter Brand">
+            </div>
+           
+            <div class="form-group">
+                <label for="exampleInputEmail1">Batterie</label>
+                <input type="text" class="form-control" formControlName="Batterie" id="exampleInputEmail1"
+                    placeholder="Enter BatterySize">
+            </div>
+            <div class="form-group">
+                <label>Image </label>
+                <input type="text" class="form-control" formControlName="Image">
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+
+            <button class="btn btn-primary">Creer</button>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+<ngx-spinner *ngIf="delete==true" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#b31717" type="square-loader"
+    [fullScreen]="true">
+    <p style="color: white"> suppression en cours ... </p>
+</ngx-spinner>
+<ngx-spinner *ngIf="upd==true" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#b31717" type="ball-running-dots"
+    [fullScreen]="true">
+    <p style="color: white"> mise à jour ... </p>
+</ngx-spinner>
+<ngx-spinner *ngIf="showspphone==true" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#b31717" type="pacman"
+    [fullScreen]="true">
+    <p style="color: white"> chargement des accessoires en cours ... </p>
+</ngx-spinner>
+
+<ng-template #mymodaledit let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit Phone</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body" *ngFor="let item of editeditem">
+        <form (ngSubmit)="update(item.Id)">
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Designation</label>
+                <input [value]="item.AcessName" (input)="name= $event.target.value" id="exampleInputEmail1"
+                    class="form-control" placeholder="Enter Designation">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Prix</label>
+                <input [value]="item.Prix" (input)="prix = $event.target.value" id="exampleInputEmail1"
+                    class="form-control" placeholder="Entrer Prix">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Brand</label>
+                <input type="text" class="form-control" [value]="item.Brand" (input)="brand = $event.target.value"
+                    id="exampleInputEmail1" placeholder="Enter RAM">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Image</label>
+                <input type="text" class="form-control" [value]="item.Image" (input)="image = $event.target.value"
+                    id="exampleInputEmail1" placeholder="Enter Stockage">
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+
+            <button class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>

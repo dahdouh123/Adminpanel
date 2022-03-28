@@ -1,0 +1,124 @@
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col">
+            <h3>Utilisateurs</h3>
+        </div>
+
+    </div>
+    <br />
+
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="form"> <i class="fa fa-search"></i> <input matInput (keyup)="applyFilter($event)" type="text"
+                    class="form-control form-input" placeholder="Search User..."> <span class="left-pan"><i
+                        class="fa fa-microphone"></i></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <table mat-table [dataSource]="datasource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="Image">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Photo </th>
+            <td mat-cell *matCellDef="let element"> <img style="width:150px" src="{{element.Image}} " alt="" srcset="">
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Nom">
+            <th style="margin-right: 10px;" mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+            <td mat-cell *matCellDef="let element"> {{element.Nom}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Prenom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Prenom </th>
+            <td mat-cell *matCellDef="let element"> {{element.Prenom}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary" (click)="opendetail(mymodal,element.Id)">User Detail</button>
+                <button mat-raised-button color="warn" (click)="sendmessage(element.Id)">Send Message</button>
+
+
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
+
+
+</div>
+
+
+<ng-template #mymodal let-modal>
+    <div class="modal-header" style="background-color:lightgray">
+        <h4 class="modal-title" id="modal-basic-title"> Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body" *ngFor="let item of detaillist">
+        <mat-card class="example-card">
+            <mat-card-title-group>
+                <mat-card-title style="font-size: large;font-weight: bold;">{{item.Nom}} {{item.Prenom}}
+                </mat-card-title>
+                <mat-card-subtitle>{{item.Email}}</mat-card-subtitle>
+                <img style="width: 150px" src="{{item.Image}}">
+            </mat-card-title-group>
+            <mat-card-content>
+                <h4>Personel Info</h4>
+
+
+                <mat-list>
+                    <mat-divider></mat-divider>
+
+
+                        <mat-list-item>Mobile : {{item.Mobile}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Adresse Personel: {{item.Adresse}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Adresse de Facturation Principale : {{item.Adrfac1}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Adresse de Facturation Secondaire : {{item.Adrfac2}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                </mat-list>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ngx-spinner *ngIf="showspphone==true" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#b31717" type="pacman"
+    [fullScreen]="true">
+    <p style="color: white"> chargement de Lise des utilisateurs en cours ... </p>
+</ngx-spinner>
